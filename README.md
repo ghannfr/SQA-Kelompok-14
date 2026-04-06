@@ -9,7 +9,7 @@ Repository ini berisi dokumen Software Quality Assurance (SQA) dari Kelompok 14.
 Silakan klik pada nama folder atau file di bawah ini untuk mengakses dokumen pengujian:
 
 * 📁 **[Software Design Documentation](./Software%20Design%20Documentation)**
-  * 📄 [Buka File SDD](./Software%20Design%20Documentation/nama_file_sdd_anda.md)
+  * 📄 [1.1 Tujuan](./Software%20Design%20Documentation/1.1 Tujuan)
 
 * 📁 **[Software Requirement Specification](./Software%20Requirement%20Specification)**
   * 📄 [Buka File SRS](./Software%20Requirement%20Specification/nama_file_srs_anda.md)
