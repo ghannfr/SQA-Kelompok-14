@@ -1,4 +1,4 @@
-# Tugas-SQA-Kelompok-14
+# SQA-Kelompok-14
 
 Repository ini berisi dokumen Software Quality Assurance (SQA) dari Kelompok 14.
 
