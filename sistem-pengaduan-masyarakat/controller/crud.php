@@ -40,12 +40,12 @@ if (!empty($_GET['aksi'] == "daftar")) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = ''; // GANTI INI
-        $mail->Password   = '';    // GANTI INI
+        $mail->Username   = 'adminsipm@gmail.com'; // GANTI INI
+        $mail->Password   = 'clzn hnnh hlps xxbm';    // GANTI INI
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
-        $mail->setFrom('', 'Admin SiPM'); // GANTI INI
+        $mail->setFrom('adminsipm@gmail.com', 'Admin SiPM'); // GANTI INI
         $mail->addAddress($_POST['email'], $_POST['nama']);
 
         $mail->isHTML(true);
