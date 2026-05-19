@@ -6,31 +6,19 @@
 <body>
     <?php include('../template/topbar.php'); include('../template/sidebar.php'); ?>
     <main id="main" class="main">
-        <div class="pagetitle"><h1>Pengaduan Bulanan</h1></div>
+        <div class="pagetitle"><h1>Pengaduan Tahunan</h1></div>
 
         <section class="section">
         <div class="row"><div class="col-lg-12"><div class="card"><div class="card-body">
-            <h5 class="card-title">Filter Laporan Bulanan</h5>
+            <h5 class="card-title">Filter Laporan Tahunan</h5>
             
-            <form method="GET" action="bulanan.php" class="row g-3 mb-4">
+            <form method="GET" action="tahunan.php" class="row g-3 mb-4">
                 <div class="col-auto">
-                    <select name="bulan" class="form-select" required>
-                        <option value="">-- Pilih Bulan --</option>
-                        <?php 
-                        $bulanArr = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
-                        foreach($bulanArr as $k => $v){
-                            $sel = (isset($_GET['bulan']) && $_GET['bulan']==$k) ? 'selected' : '';
-                            echo "<option value='$k' $sel>$v</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <input type="number" name="tahun" class="form-control" placeholder="Tahun" value="<?php echo isset($_GET['tahun']) ? $_GET['tahun'] : date('Y'); ?>" required>
+                    <input type="number" name="tahun" class="form-control" placeholder="Tahun (contoh: 2026)" value="<?php echo isset($_GET['tahun']) ? $_GET['tahun'] : date('Y'); ?>" required>
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Tampilkan</button>
-                    <a href="bulanan.php" class="btn btn-secondary">Reset</a>
+                    <a href="tahunan.php" class="btn btn-secondary">Reset</a>
                 </div>
             </form>
 
@@ -39,10 +27,10 @@
                 <tbody>
                     <?php
                     $no=1;
-                    $b = isset($_GET['bulan']) ? $_GET['bulan'] : null;
                     $t = isset($_GET['tahun']) ? $_GET['tahun'] : null;
                     
-                    $hasil = $proses->tampil_data_bulanan('t_pengaduan', $user['id_user'], $b, $t);
+                    // Memanggil fungsi Tahunan yang baru kita buat
+                    $hasil = $proses->tampil_data_tahunan('t_pengaduan', $user['id_user'], $t);
 
                     foreach($hasil as $isi){
                         $ver = ($isi['status']==0) ? "Belum Verifikasi" : "Sudah Verifikasi";

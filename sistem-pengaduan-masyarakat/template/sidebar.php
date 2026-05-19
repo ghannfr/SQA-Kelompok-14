@@ -77,6 +77,11 @@
           <i class="bi bi-circle"></i><span>Bulanan</span>
         </a>
       </li>
+      <li>
+        <a href="<?php echo $url['base_url']?>views/tahunan.php">
+          <i class="bi bi-circle"></i><span>Tahunan</span>
+        </a>
+      </li>
     </ul>
     <?php
     }

@@ -85,13 +85,7 @@
             return $save->execute();
         }
 
-        //tampil data harian
-        function tampil_data_harian($tabel, $user)
-        {
-            $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan = DATE(NOW())");
-            $row->execute();
-            return $hasil = $row->fetchAll();
-        }
+        
 
         //hapus data
         function hapus_data($tabel,$where,$id)
@@ -137,26 +131,67 @@
             return $result->execute();
         }
 
-        //mingguan
-        function tampil_data_mingguan($tabel, $user)
+        // 1. Laporan Harian (Dengan Filter Tanggal)
+        function tampil_data_harian($tabel, $user, $tanggal = null)
         {
-            $nows=strtotime(date('Y-m-d'));
-            $start=date('Y-m-d',strtotime('-7 day', $nows));
-            $end = date('Y-m-d');
-            $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan between '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+            if($tanggal != null) {
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan = '$tanggal' ORDER BY tgl_pengaduan DESC");
+            } else {
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan = DATE(NOW()) ORDER BY tgl_pengaduan DESC");
+            }
             $row->execute();
-            return $hasil = $row->fetchAll();
+            return $row->fetchAll();
         }
 
-        //data bulanan
-        function tampil_data_bulanan($tabel, $user)
+        // 2. Laporan Mingguan (Dengan Filter Minggu ke-, Bulan, Tahun)
+        function tampil_data_mingguan($tabel, $user, $minggu = null, $bulan = null, $tahun = null)
         {
-            $nows=strtotime(date('Y-m-d'));
-            $start=date('Y-m-01');
-            $end = date('Y-m-t');
-            $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan between '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+            if($minggu != null && $bulan != null && $tahun != null) {
+                // Logika rentang tanggal berdasarkan minggu ke-X
+                $start_day = ($minggu - 1) * 7 + 1;
+                $end_day = $minggu * 7;
+                $batas_hari_bulan = date('t', strtotime("$tahun-$bulan-01")); 
+                
+                if($end_day > $batas_hari_bulan) { $end_day = $batas_hari_bulan; }
+                
+                $start = "$tahun-$bulan-" . sprintf("%02d", $start_day);
+                $end = "$tahun-$bulan-" . sprintf("%02d", $end_day);
+
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+            } else {
+                $nows=strtotime(date('Y-m-d'));
+                $start=date('Y-m-d',strtotime('-7 day', $nows));
+                $end = date('Y-m-d');
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+            }
             $row->execute();
-            return $hasil = $row->fetchAll();
+            return $row->fetchAll();
+        }
+
+        // 3. Laporan Bulanan (Dengan Filter Bulan dan Tahun)
+        function tampil_data_bulanan($tabel, $user, $bulan = null, $tahun = null)
+        {
+            if($bulan != null && $tahun != null) {
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE MONTH(tgl_pengaduan) = '$bulan' AND YEAR(tgl_pengaduan) = '$tahun' ORDER BY tgl_pengaduan DESC");
+            } else {
+                $start=date('Y-m-01');
+                $end = date('Y-m-t');
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+            }
+            $row->execute();
+            return $row->fetchAll();
+        }
+
+        // 4. Laporan Tahunan (FUNGSI BARU)
+        function tampil_data_tahunan($tabel, $user, $tahun = null)
+        {
+            if($tahun != null) {
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE YEAR(tgl_pengaduan) = '$tahun' ORDER BY tgl_pengaduan DESC");
+            } else {
+                $row = $this->db->prepare("SELECT * FROM $tabel WHERE YEAR(tgl_pengaduan) = YEAR(NOW()) ORDER BY tgl_pengaduan DESC");
+            }
+            $row->execute();
+            return $row->fetchAll();
         }
 
         //tampil data seluruhnya

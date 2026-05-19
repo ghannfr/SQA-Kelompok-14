@@ -17,8 +17,7 @@
             <li class="breadcrumb-item active">Pengaduan</li>
             </ol>
         </nav>
-        </div><!-- End Page Title -->
-    <section class="section">
+        </div><section class="section">
       <div class="row">
         <div class="col-lg-12">
 
@@ -26,25 +25,27 @@
             <div class="card-body">
               <h5 class="card-title">Input Pengaduan</h5>
 
-              <!-- General Form Elements -->
               <form action="<?php echo $url['base_url']?>controller/crud.php?aksi=tambah" method="POST" enctype="multipart/form-data">
               <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?php echo $user['id_user'] ?>">
+                
                 <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Tanggal</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="tgl_pengaduan">
+                    <input type="date" class="form-control" name="tgl_pengaduan" required oninvalid="this.setCustomValidity('Tanggal pengaduan harus diisi')" oninput="this.setCustomValidity('')">
                   </div>
                 </div>
+                
                 <div class="row mb-3">
                   <label for="inputPassword" class="col-sm-2 col-form-label">Isi Laporan</label>
                   <div class="col-sm-10">
-                    <textarea class="form-control" style="height: 100px" name="isi_laporan"></textarea>
+                    <textarea class="form-control" style="height: 100px" name="isi_laporan" required oninvalid="this.setCustomValidity('Isi laporan harus diisi')" oninput="this.setCustomValidity('')"></textarea>
                   </div>
                 </div>
+                
                 <div class="row mb-3">
                   <label for="inputNumber" class="col-sm-2 col-form-label">File Foto</label>
                   <div class="col-sm-10">
-                    <input class="form-control" type="file" id="formFile" name="foto">
+                    <input class="form-control" type="file" id="formFile" name="foto" required oninvalid="this.setCustomValidity('Foto bukti harus diupload')" oninput="this.setCustomValidity('')">
                   </div>
                 </div>
                 
@@ -54,16 +55,11 @@
                   </div>
                 </div>
 
-              </form><!-- End General Form Elements -->
-
-            </div>
+              </form></div>
           </div>
 
         </div>
       </div>
     </section>
 
-  </main><!-- End #main -->
-  <?php include('../template/footer.php') ?>
-
-  
+  </main><?php include('../template/footer.php') ?>
