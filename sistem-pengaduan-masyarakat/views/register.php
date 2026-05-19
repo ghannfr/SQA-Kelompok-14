@@ -1,7 +1,8 @@
-<?php 
-  include('../template/link.php');
-  include('../template/head.php');
+<?php
+include('../template/link.php');
+include('../template/head.php');
 ?>
+
 <body>
 
   <main>
@@ -17,7 +18,8 @@
                   <img src="assets/img/logo.png" alt="">
                   <span class="d-none d-lg-block">SiPM</span>
                 </a>
-              </div><div class="card mb-3">
+              </div>
+              <div class="card mb-3">
 
                 <div class="card-body">
 
@@ -26,8 +28,8 @@
                     <p class="text-center small">Masukan data diri Anda</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action="<?php echo $url['base_url'];?>controller/crud.php?aksi=daftar" method="POST">
-                  
+                  <form class="row g-3 needs-validation" novalidate action="<?php echo $url['base_url']; ?>controller/crud.php?aksi=daftar" method="POST">
+
                     <div class="col-12">
                       <label for="yourNIK" class="form-label">NIK</label>
                       <input type="number" name="nik" class="form-control" required>
@@ -56,8 +58,8 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Silahkan masukan password!</div>
+                      <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Password harus minimal 8 karakter, mengandung setidaknya satu huruf dan satu angka">
+                      <div class="invalid-feedback">Password minimal 8 karakter dan harus mengandung kombinasi huruf & angka!</div>
                     </div>
 
                     <div class="col-12">
@@ -75,18 +77,18 @@
                     <div class="col-12">
                       <label for="yourLevel" class="form-label">Level</label>
                       <select class="form-select" name="level" aria-label="Default select example">
-                      <option selected>-Pilih Level-</option>
-                      <option value="1">Admin</option>
-                      <option value="2">Petugas</option>
-                      <option value="3">Masyarakat</option>
-                    </select>
+                        <option selected>-Pilih Level-</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Petugas</option>
+                        <option value="3">Masyarakat</option>
+                      </select>
                     </div>
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Sudah punya akun? <a href="<?php echo $url['base_url'];?>">Log in</a></p>
+                      <p class="small mb-0">Sudah punya akun? <a href="<?php echo $url['base_url']; ?>">Log in</a></p>
                     </div>
                   </form>
 
