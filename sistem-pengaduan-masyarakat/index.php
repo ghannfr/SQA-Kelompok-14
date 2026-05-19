@@ -39,8 +39,10 @@ include 'template/head.php';
 
                   <div class="col-12">
                     <label for="yourPassword" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8">
-                    <div class="invalid-feedback">Password tidak boleh kosong! (Minimal 8 karakter)</div>
+                    <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8"
+                      oninput="this.nextElementSibling.innerText = this.value === '' ? 'Password tidak boleh kosong!' : 'Password minimal 8 karakter!'"
+                      oninvalid="this.nextElementSibling.innerText = this.value === '' ? 'Password tidak boleh kosong!' : 'Password minimal 8 karakter!'">
+                    <div class="invalid-feedback">Password tidak boleh kosong!</div>
                   </div>
 
                   <div class="col-12">
