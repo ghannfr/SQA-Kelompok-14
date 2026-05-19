@@ -59,7 +59,7 @@ include('../template/head.php');
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Password harus minimal 8 karakter, mengandung setidaknya satu huruf dan satu angka">
-                      <div class="invalid-feedback">Password minimal 8 karakter dan harus mengandung kombinasi huruf & angka!</div>
+                      <div class="invalid-feedback">Password tidak boleh kosong, minimal 8 karakter, dan harus ada huruf & angka!</div>
                     </div>
 
                     <div class="col-12">

@@ -40,7 +40,7 @@ include 'template/head.php';
                   <div class="col-12">
                     <label for="yourPassword" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" id="yourPassword" required minlength="8">
-                    <div class="invalid-feedback">Silahkan masukan password yang valid (minimal 8 karakter)!</div>
+                    <div class="invalid-feedback">Password tidak boleh kosong! (Minimal 8 karakter)</div>
                   </div>
 
                   <div class="col-12">
