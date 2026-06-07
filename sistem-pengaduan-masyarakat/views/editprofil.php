@@ -1,21 +1,28 @@
-<?php 
-  require "../controller/pintasan.php";
-  include('../template/link.php');
-  include('../template/head.php');
+<?php
+require "../controller/pintasan.php";
+include('../template/link.php');
+include('../template/head.php');
 ?>
 
 <body>
-    <?php include('../template/topbar.php'); include('../template/sidebar.php'); ?>
-    
-    <?php 
-        $profil = $proses->tampil_data_id('t_user', 'id_user', $user['id_user']);
-        $foto_src = (!empty($profil['foto_profil'])) ? "../upload/" . $profil['foto_profil'] : "https://ui-avatars.com/api/?name=" . urlencode($profil['nama']) . "&background=random&color=fff&rounded=true&size=120";
+    <?php include('../template/topbar.php');
+    include('../template/sidebar.php'); ?>
+
+    <?php
+    $profil = $proses->tampil_data_id('t_user', 'id_user', $user['id_user']);
+    $foto_src = (!empty($profil['foto_profil'])) ? "../upload/" . $profil['foto_profil'] : "https://ui-avatars.com/api/?name=" . urlencode($profil['nama']) . "&background=random&color=fff&rounded=true&size=120";
     ?>
 
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Edit Profil</h1>
-            <nav><ol class="breadcrumb"><li class="breadcrumb-item"><a href="dashboard.php">Home</a></li><li class="breadcrumb-item"><a href="profil.php">Profil</a></li><li class="breadcrumb-item active">Edit</li></ol></nav>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                    <li class="breadcrumb-item"><a href="profil.php">Profil</a></li>
+                    <li class="breadcrumb-item active">Edit</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section">
@@ -23,8 +30,8 @@
                 <div class="col-lg-8 mx-auto">
                     <div class="card shadow-sm">
                         <div class="card-body pt-4">
-                            
-                            <form action="<?php echo $url['base_url'];?>controller/crud.php?aksi=editprofil" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+                            <form action="<?php echo $url['base_url']; ?>controller/crud.php?aksi=editprofil" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                                 <input type="hidden" name="id_user" value="<?php echo $profil['id_user']; ?>">
 
                                 <div class="row mb-4 text-center">
@@ -39,36 +46,22 @@
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label fw-bold">NIK</label>
                                     <div class="col-sm-9">
-                                        <input type="tel" name="nik" class="form-control" value="<?php echo $profil['nik']; ?>" required minlength="16" maxlength="16" pattern="^[0-9]{16}$"
-                                            oninput="
-                                                this.value = this.value.replace(/[^0-9]/g, '');
-                                                let pesan = '';
-                                                if (this.value === '') {
-                                                    pesan = 'NIK tidak boleh kosong!';
-                                                } else if (this.value.length < 16) {
-                                                    pesan = 'NIK kurang lengkap! NIK harus pas 16 angka.';
-                                                }
-                                                this.setCustomValidity(pesan);
-                                                if (pesan) this.nextElementSibling.innerText = pesan;
-                                            "
-                                            oninvalid="
-                                                if (this.value === '') {
-                                                    this.setCustomValidity('kosong');
-                                                    this.nextElementSibling.innerText = 'NIK tidak boleh kosong!';
-                                                }
-                                            ">
-                                        <div class="invalid-feedback">NIK tidak boleh kosong!</div>
+                                        <input type="text" name="nik" class="form-control bg-light" value="<?php echo $profil['nik']; ?>" readonly>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label fw-bold">Username</label>
-                                    <div class="col-sm-9"><input type="text" name="username" class="form-control bg-light" value="<?php echo $profil['username']; ?>" readonly></div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="username" class="form-control" value="<?php echo $profil['username']; ?>" required>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label class="col-sm-3 col-form-label fw-bold">Nama Lengkap</label>
-                                    <div class="col-sm-9"><input type="text" name="nama" class="form-control" value="<?php echo $profil['nama']; ?>" required></div>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="nama" class="form-control bg-light" value="<?php echo $profil['nama']; ?>" readonly>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">

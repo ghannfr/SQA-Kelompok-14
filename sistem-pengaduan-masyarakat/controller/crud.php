@@ -121,22 +121,22 @@ if (!empty($_GET['aksi'] == "tambah")) {
 if (!empty($_GET['aksi'] == 'editprofil')) {
     $id_user = $_POST['id_user'];
     $data = array(
-        'nik'    => $_POST['nik'], // <-- TAMBAHAN (Menangkap NIK baru)
-        'nama'   => $_POST['nama'],
+        'username' => $_POST['username'], // <-- TAMBAHAN (Menangkap Username baru)
         'email'  => $_POST['email'],
         'no_tlp' => $_POST['no_tlp'],
         'alamat' => $_POST['alamat']
+        // NIK dan Nama dihapus karena tidak bisa diedit
     );
-    
+
     // Simpan ke database
     $proses->edit_profil($data, $id_user);
-    
+
     // --- TAMBAHAN: UPDATE SESSION SECARA REAL-TIME ---
     session_start();
     $profil_terbaru = $proses->tampil_data_id('t_user', 'id_user', $id_user);
     $_SESSION['login'] = $profil_terbaru;
     // --------------------------------------------------
-    
+
     echo '<script>alert("Profil Anda berhasil diperbarui!");window.location="../views/profil.php";</script>';
 }
 

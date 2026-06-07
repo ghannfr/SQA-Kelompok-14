@@ -1,25 +1,26 @@
-<?php 
-  include('../template/link.php');
-  include('../template/head.php');
+<?php
+include('../template/link.php');
+include('../template/head.php');
 ?>
+
 <body>
-    <?php 
-     include('../template/topbar.php');
-     include('../template/sidebar.php');
-     require '../controller/Pintasan.php';
+    <?php
+    include('../template/topbar.php');
+    include('../template/sidebar.php');
+    require '../controller/Pintasan.php';
 
-     // Memastikan session sudah berjalan dan mengambil data level
-     if (session_status() === PHP_SESSION_NONE) {
-         session_start();
-     }
-     $level_user = $_SESSION['login']['level'];
+    // Memastikan session sudah berjalan dan mengambil data level
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $level_user = $_SESSION['login']['level'];
 
-     // Mengambil data angka HANYA jika yang login adalah Admin (1) atau Petugas (2)
-     if($level_user == 1 || $level_user == 2) {
-         $total_pengaduan = $proses->hitung_total_pengaduan();
-         $pending_pengaduan = $proses->hitung_pengaduan_pending();
-         $total_masyarakat = $proses->hitung_total_masyarakat();
-     }
+    // Mengambil data angka HANYA jika yang login adalah Admin (1) atau Petugas (2)
+    if ($level_user == 1) {
+        $total_pengaduan = $proses->hitung_total_pengaduan();
+        $pending_pengaduan = $proses->hitung_pengaduan_pending();
+        $total_masyarakat = $proses->hitung_total_masyarakat();
+    }
     ?>
 
     <main id="main" class="main">
@@ -31,14 +32,15 @@
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </nav>
-        </div><section class="section dashboard">
+        </div>
+        <section class="section dashboard">
             <div class="row">
 
-                <?php 
+                <?php
                 // =======================================================
                 // TAMPILAN DASHBOARD UNTUK ADMIN DAN PETUGAS
                 // =======================================================
-                if($level_user == 1 || $level_user == 2) { 
+                if ($level_user == 1) {
                 ?>
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card sales-card">
@@ -91,21 +93,21 @@
                         </div>
                     </div>
 
-                <?php 
-                // =======================================================
-                // TAMPILAN DASHBOARD KHUSUS UNTUK MASYARAKAT
-                // =======================================================
-                } else if($level_user == 3) { 
+                <?php
+                    // =======================================================
+                    // TAMPILAN DASHBOARD KHUSUS UNTUK MASYARAKAT
+                    // =======================================================
+                } else if ($level_user == 2) {
                 ?>
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body text-center p-5">
                                 <img src="../assets/img/logo.png" alt="Ilustrasi Pengaduan" class="img-fluid mb-4" style="max-height: 250px;">
-                                
+
                                 <h2 class="fw-bold mb-3">Sistem Pengaduan Masyarakat (SiPM)</h2>
                                 <p class="text-muted mb-5 fs-5">Sampaikan laporan, aspirasi, dan keluhan Anda di sini. Kami siap merespon dan menindaklanjuti laporan Anda dengan cepat dan transparan.</p>
-                                
-                                <a href="<?php echo $url['base_url'];?>views/addpengaduan.php" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm">
+
+                                <a href="<?php echo $url['base_url']; ?>views/addpengaduan.php" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm">
                                     <i class="bi bi-pencil-square me-2"></i> Tulis Pengaduan Sekarang
                                 </a>
                             </div>
@@ -116,5 +118,5 @@
             </div>
         </section>
     </main>
-    
-<?php include('../template/footer.php') ?>
+
+    <?php include('../template/footer.php') ?>
