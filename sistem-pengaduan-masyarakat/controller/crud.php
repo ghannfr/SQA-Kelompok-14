@@ -115,6 +115,29 @@ if (!empty($_GET['aksi'] == "tambah")) {
     );
     $proses->tambah_data($tabel, $data);
     echo '<script>alert("Tambah Data Berhasil");window.location="../views/dashboard.php"</script>';
+} // PENUTUP KURUNG KURAWAL "tambah" SEKARANG ADA DI SINI
+
+// AKSI EDIT PROFIL (SEKARANG BERDIRI SENDIRI DI LUAR "tambah")
+if (!empty($_GET['aksi'] == 'editprofil')) {
+    $id_user = $_POST['id_user'];
+    $data = array(
+        'nik'    => $_POST['nik'], // <-- TAMBAHAN (Menangkap NIK baru)
+        'nama'   => $_POST['nama'],
+        'email'  => $_POST['email'],
+        'no_tlp' => $_POST['no_tlp'],
+        'alamat' => $_POST['alamat']
+    );
+    
+    // Simpan ke database
+    $proses->edit_profil($data, $id_user);
+    
+    // --- TAMBAHAN: UPDATE SESSION SECARA REAL-TIME ---
+    session_start();
+    $profil_terbaru = $proses->tampil_data_id('t_user', 'id_user', $id_user);
+    $_SESSION['login'] = $profil_terbaru;
+    // --------------------------------------------------
+    
+    echo '<script>alert("Profil Anda berhasil diperbarui!");window.location="../views/profil.php";</script>';
 }
 
 // hapus data

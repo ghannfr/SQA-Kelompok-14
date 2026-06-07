@@ -50,14 +50,16 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm h-100">
                         <div class="card-body pt-4">
                             <h5 class="card-title pt-0">
                                 Isi Pengaduan
                                 <span class="badge bg-primary float-end">PGD-<?php echo sprintf("%03d", $pengaduan['id_pengaduan']); ?></span>
                             </h5>
                             
-                            <span class="text-muted small mb-3 d-block"><i class="bi bi-calendar-event"></i> Dikirim pada: <?php echo date('d F Y', strtotime($pengaduan['tgl_pengaduan'])); ?></span>
+                            <span class="text-muted small mb-2 d-block"><i class="bi bi-calendar-event"></i> Dikirim pada: <?php echo date('d M Y, H:i', strtotime($pengaduan['tgl_pengaduan'])); ?> WIB</span>
+                            
+                            <span class="badge bg-secondary mb-3"><i class="bi bi-tag-fill me-1"></i> <?php echo $pengaduan['kategori']; ?></span>
                             
                             <div class="p-3 bg-light rounded mb-3" style="min-height: 100px;">
                                 <?php echo nl2br($pengaduan['isi_laporan']); ?>
@@ -74,7 +76,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm h-100">
                         <div class="card-body pt-4">
                             <?php if($tanggapan) { ?>
                                 <h5 class="card-title text-success pt-0">
@@ -82,7 +84,7 @@
                                     <span class="badge bg-success float-end">TGP-<?php echo sprintf("%03d", $tanggapan['id_tanggapan']); ?></span>
                                 </h5>
                                 
-                                <span class="text-muted small mb-3 d-block"><i class="bi bi-calendar-check"></i> Ditanggapi pada: <?php echo date('d F Y', strtotime($tanggapan['tgl_tanggapan'])); ?></span>
+                                <span class="text-muted small mb-3 d-block"><i class="bi bi-calendar-check"></i> Ditanggapi pada: <?php echo date('d M Y, H:i', strtotime($tanggapan['tgl_tanggapan'])); ?> WIB</span>
                                 
                                 <div class="p-3 border border-success border-opacity-50 rounded bg-success bg-opacity-10" style="min-height: 150px;">
                                     <?php echo nl2br($tanggapan['tanggapan']); ?>
@@ -98,8 +100,8 @@
                     </div>
                 </div>
                 
-                <div class="col-12 mt-2">
-                    <button onclick="history.back()" class="btn btn-secondary shadow-sm"><i class="bi bi-arrow-left"></i> Kembali ke Tabel Laporan</button>
+                <div class="col-12 mt-3">
+                    <button onclick="history.back()" class="btn btn-secondary shadow-sm"><i class="bi bi-arrow-left"></i> Kembali ke Halaman Sebelumnya</button>
                 </div>
                 
             </div>

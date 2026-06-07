@@ -32,7 +32,7 @@ include('../template/head.php');
                                     <tr>
                                         <th scope="col">No</th>
                                         <th scope="col">ID Tiket</th>
-                                        <th scope="col">Tanggal</th>
+                                        <th scope="col">Kategori</th> <th scope="col">Tanggal</th>
                                         <th scope="col">Isi Laporan</th>
                                         <th scope="col">Foto</th>
                                         <th scope="col">Aksi | Status</th>
@@ -44,7 +44,6 @@ include('../template/head.php');
                                     $hasil = $proses->tampil_pengaduan_tanggapan_user($user['id_user']);
 
                                     foreach ($hasil as $isi) {
-                                        // LOGIKA STATUS DITAMBAHKAN
                                         if ($isi['status'] == 0) {
                                             $ver = "Belum Verifikasi";
                                         } elseif ($isi['status'] == 1) {
@@ -72,11 +71,16 @@ include('../template/head.php');
                                                 <?php } ?>
                                             </td>
 
-                                            <td><?php echo date('d M Y H:i', strtotime($isi['tgl_pengaduan'])); ?></td>
                                             <td>
-                                                <?php
-                                                echo strlen($isi['isi_laporan']) > 50 ? substr($isi['isi_laporan'], 0, 50) . '...' : $isi['isi_laporan'];
-                                                ?>
+                                                <span class="badge bg-secondary">
+                                                    <i class="bi bi-tag-fill me-1"></i> <?php echo $isi['kategori']; ?>
+                                                </span>
+                                            </td>
+
+                                            <td><?php echo date('d M Y, H:i', strtotime($isi['tgl_pengaduan'])); ?> WIB</td>
+                                            
+                                            <td>
+                                                <?php echo strlen($isi['isi_laporan']) > 50 ? substr($isi['isi_laporan'], 0, 50) . '...' : $isi['isi_laporan']; ?>
                                             </td>
                                             <td><img src="<?php echo "../upload/" . $isi['foto']; ?>" width="80px" height="80px" class="rounded shadow-sm" style="object-fit: cover;" /></td>
 

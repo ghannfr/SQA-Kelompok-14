@@ -25,7 +25,7 @@ include('../template/head.php');
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Daftar Pengaduan Masuk (Belum Ditanggapi)</h5>
+                            <h5 class="card-title">Daftar Pengaduan Masuk</h5>
 
                             <table class="table table-hover align-middle">
                                 <thead>
@@ -70,7 +70,7 @@ include('../template/head.php');
                                                 </span>
                                             </td>
 
-                                            <td><?php echo date('d M Y H:i', strtotime($isi['tgl_pengaduan'])); ?><?php echo date('d M Y', strtotime($isi['tgl_pengaduan'])); ?></td>
+                                            <td><?php echo date('d M Y, H:i', strtotime($isi['tgl_pengaduan'])); ?> WIB</td>
 
                                             <td>
                                                 <?php

@@ -308,4 +308,33 @@ class crud
         $row->execute(array($id_user));
         return $row->fetchAll();
     }
+    // FUNGSI BARU: Edit Profil User
+    // FUNGSI: Edit Profil User
+    public function edit_profil($data = array(), $id_user)
+    {
+        $nik = $data['nik'];
+        $nama = $data['nama'];
+        $email = $data['email'];
+        $no_tlp = $data['no_tlp'];
+        $alamat = $data['alamat'];
+        
+        // Cek apakah user mengunggah foto profil baru
+        if ($_FILES['foto_profil']['name'] != '') {
+            $foto = $_FILES['foto_profil']['name'];
+            $tmp = $_FILES['foto_profil']['tmp_name'];
+            
+            // Upload ke folder upload
+            move_uploaded_file($tmp, '../upload/' . $foto);
+            
+            // Tambahkan NIK ke dalam query UPDATE
+            $sql = "UPDATE t_user SET nik = ?, nama = ?, email = ?, no_tlp = ?, alamat = ?, foto_profil = ? WHERE id_user = ?";
+            $result = $this->db->prepare($sql);
+            return $result->execute(array($nik, $nama, $email, $no_tlp, $alamat, $foto, $id_user));
+        } else {
+            // Jika foto tidak diubah, tambahkan juga NIK ke query UPDATE
+            $sql = "UPDATE t_user SET nik = ?, nama = ?, email = ?, no_tlp = ?, alamat = ? WHERE id_user = ?";
+            $result = $this->db->prepare($sql);
+            return $result->execute(array($nik, $nama, $email, $no_tlp, $alamat, $id_user));
+        }
+    }
 }

@@ -44,7 +44,7 @@
             </form>
 
             <table class="table table-hover align-middle">
-                <thead><tr><th>No</th><th>ID Laporan</th><th>Pengirim</th><th>Tanggal</th><th>Isi Laporan</th><th>Foto</th><th>Status</th><th>Aksi</th></tr></thead>
+                <thead><tr><th>No</th><th>ID Laporan</th><th>Pengirim</th><th>Kategori</th><th>Tanggal</th><th>Isi Laporan</th><th>Foto</th><th>Status</th><th>Aksi</th></tr></thead>
                 <tbody>
                     <?php
                     $no=1;
@@ -59,12 +59,16 @@
                     <tr>
                         <td><?php echo $no++; ?></td>
                         <td><span class="badge bg-primary"><i class="bi bi-file-earmark-text"></i> PGD-<?php echo sprintf("%03d", $isi['id_pengaduan']); ?></span></td>
-                        <!-- Kolom Pengirim -->
                         <td>
                             <span class="fw-bold"><?php echo $isi['nama']; ?></span><br>
                             <span class="text-muted small">NIK: <?php echo $isi['nik']; ?></span>
                         </td>
-                        <td><?php echo date('d M Y', strtotime($isi['tgl_pengaduan'])); ?></td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-tag-fill me-1"></i> <?php echo $isi['kategori']; ?>
+                            </span>
+                        </td>
+                        <td><?php echo date('d M Y, H:i', strtotime($isi['tgl_pengaduan'])); ?> WIB</td>
                         <td><?php echo strlen($isi['isi_laporan']) > 40 ? substr($isi['isi_laporan'], 0, 40) . '...' : $isi['isi_laporan']; ?></td>
                         <td><img src="../upload/<?php echo $isi['foto'];?>" width="70px" height="70px" class="rounded shadow-sm" style="object-fit: cover;"/></td>
                         <td>

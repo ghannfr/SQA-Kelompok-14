@@ -31,10 +31,10 @@ include('../template/head.php');
                 <input type="hidden" class="form-control" id="id_user" name="id_user" value="<?php echo $user['id_user'] ?>">
 
                 <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Tanggal Tanggapan</label>
+                  <label class="col-sm-2 col-form-label">Tanggal Pengaduan</label>
                   <div class="col-sm-10">
-                    <input type="datetime-local" name="tgl_tanggapan" class="form-control"
-                      value="<?php echo date('Y-m-d\TH:i'); ?>" readonly>
+                    <?php date_default_timezone_set('Asia/Jakarta'); ?>
+                    <input type="text" class="form-control" value="<?php echo date('d M Y, H:i'); ?> WIB" disabled>
                   </div>
                 </div>
 
