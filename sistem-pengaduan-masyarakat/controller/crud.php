@@ -22,16 +22,16 @@ if (!empty($_GET['aksi'] == "daftar")) {
     $otp = rand(100000, 999999);
 
     $data = array(
-            'nik'		=> $_POST['nik'],
-            'username'	=> $_POST['username'],
-            'password'	=> $_POST['password'], 
-            'nama'		=> $_POST['nama'],
-            'no_tlp'	=> $_POST['no_tlp'],
-            'alamat'    => $_POST['alamat'],
-            'level'		=> '2', // PAKSA MENJADI 2 (Masyarakat)
-            'email'     => $email,
-            'otp'       => $otp
-        );
+        'nik'       => $_POST['nik'],
+        'username'  => $_POST['username'],
+        'password'  => $_POST['password'],
+        'nama'      => $_POST['nama'],
+        'no_tlp'    => $_POST['no_tlp'],
+        'alamat'    => $_POST['alamat'],
+        'level'     => '2', // PAKSA MENJADI 2 (Masyarakat)
+        'email'     => $email,
+        'otp'       => $otp
+    );
     $proses->daftar($tabel, $data);
 
     // Proses Kirim Email
@@ -104,12 +104,13 @@ if (!empty($_GET['aksi'] == 'logout')) {
     header('Location: ' . $url['base_url']);
 }
 
-//tambah pengaduan
+//tambah pengaduan (UPDATE HANYA PENAMBAHAN KATEGORI)
 if (!empty($_GET['aksi'] == "tambah")) {
     $tabel = 't_pengaduan';
     $data = array(
         'id_user'        => $_POST['id_user'],
-        'tgl_pengaduan'    => $_POST['tgl_pengaduan'],
+        'kategori'       => $_POST['kategori'], // Tambahan Kategori
+        'tgl_pengaduan'  => $_POST['tgl_pengaduan'],
         'isi_laporan'    => $_POST['isi_laporan']
     );
     $proses->tambah_data($tabel, $data);
@@ -125,10 +126,11 @@ if (!empty($_GET['aksi'] == "hapus")) {
     echo '<script>alert("Hapus Data Berhasil");window.location="../views/dashboard.php"</script>';
 }
 
-// proses edit
+// proses edit pengaduan (UPDATE HANYA PENAMBAHAN KATEGORI)
 if (!empty($_GET['aksi'] == 'edit')) {
     $data = array(
-        'tgl_pengaduan'    => $_POST['tgl_pengaduan'],
+        'tgl_pengaduan'  => $_POST['tgl_pengaduan'],
+        'kategori'       => $_POST['kategori'], // Tambahan Kategori
         'isi_laporan'    => $_POST['isi_laporan']
     );
     $tabel = 't_pengaduan';
@@ -138,20 +140,28 @@ if (!empty($_GET['aksi'] == 'edit')) {
     echo '<script>alert("Edit Data Berhasil");window.location="../views/dashboard.php"</script>';
 }
 
-//tambah tanggapan
+//tambah tanggapan (UPDATE BISA TERIMA ATAU TOLAK)
 if (!empty($_GET['aksi'] == "tanggapan")) {
     $tabel = 't_tanggapan';
     $tabelubah = 't_pengaduan';
+
+    // Ambil status dari input radio (1 = Terima, 2 = Tolak)
+    $status_tanggapan = $_POST['status_tanggapan'];
+
     $data = array(
-        'tanggapan'        => $_POST['tanggapan'],
-        'id_pengaduan'    => $_POST['id_pengaduan'],
+        'tanggapan'      => $_POST['tanggapan'],
+        'id_pengaduan'   => $_POST['id_pengaduan'],
         'id_user'        => $_POST['id_user']
     );
     $where = 'id_pengaduan';
     $id = strip_tags($_POST['id_pengaduan']);
+
     $proses->tambah_tanggapan($tabel, $data);
-    $proses->editstatus($tabelubah, $where, $id);
-    echo '<script>alert("Tambah Tanggapan Berhasil");window.location="../views/validasi.php"</script>';
+
+    // Masukkan status baru ke parameter fungsi (dikirim ke model)
+    $proses->editstatus($tabelubah, $where, $id, $status_tanggapan);
+
+    echo '<script>alert("Tanggapan Berhasil Dikirim!");window.location="../views/validasi.php"</script>';
 }
 
 // hapus akun
