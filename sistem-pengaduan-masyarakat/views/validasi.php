@@ -1,4 +1,3 @@
-
 <?php 
   require "../controller/pintasan.php";
   include('../template/link.php');
@@ -11,15 +10,14 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-        <h1>Pengaduan</h1>
+        <h1>Validasi Pengaduan</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item">Data</li>
-            <li class="breadcrumb-item active">Pengaduan</li>
+            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+            <li class="breadcrumb-item active">Validasi</li>
             </ol>
         </nav>
-        </div><!-- End Page Title -->
+        </div>
 
         <section class="section">
         <div class="row">
@@ -27,22 +25,22 @@
 
             <div class="card">
                 <div class="card-body">
-                <h5 class="card-title">Data Pengaduan</h5>
+                <h5 class="card-title">Daftar Pengaduan Masuk (Belum Ditanggapi)</h5>
 
-                <!-- Default Table -->
-              <table class="table">
+              <table class="table table-hover align-middle">
                 <thead>
                   <tr>
                     <th scope="col">No</th>
+                    <th scope="col">ID Laporan</th>
+                    <th scope="col">Pengirim</th> <!-- TAMBAHAN KOLOM PENGIRIM -->
                     <th scope="col">Tanggal</th>
                     <th scope="col">Isi Laporan</th>
                     <th scope="col">Foto</th>
-                    <th scope="col">Aksi | Status</th>
+                    <th scope="col">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                     <?php
-
                     $no=1;
                     $hasil = $proses->tampil_data_pengaduan('t_pengaduan', $user['id_user']);
 
@@ -50,15 +48,35 @@
                     ?>
                     <tr>
                         <td><?php echo $no; ?></td>
-                        <td><?php echo $isi['tgl_pengaduan']?></td>
-                        <td><?php echo $isi['isi_laporan'];?></td>
-                        <td><img src="<?php echo "../upload/".$isi['foto'];?>" width="80px" height="80px" /></td>
+                        
+                        <!-- Format ID Laporan -->
+                        <td>
+                            <span class="badge bg-primary">
+                                <i class="bi bi-file-earmark-text"></i> PGD-<?php echo sprintf("%03d", $isi['id_pengaduan']); ?>
+                            </span>
+                        </td>
+                        
+                        <!-- MENAMPILKAN DATA PENGIRIM -->
+                        <td>
+                            <span class="fw-bold"><?php echo $isi['nama']; ?></span><br>
+                            <span class="text-muted small">NIK: <?php echo $isi['nik']; ?></span>
+                        </td>
+                        
+                        <td><?php echo date('d M Y', strtotime($isi['tgl_pengaduan'])); ?></td>
+                        
+                        <td>
+                            <?php 
+                                echo strlen($isi['isi_laporan']) > 40 ? substr($isi['isi_laporan'], 0, 40) . '...' : $isi['isi_laporan'];
+                            ?>
+                        </td>
+                        
+                        <td><img src="<?php echo "../upload/".$isi['foto'];?>" width="70px" height="70px" class="rounded shadow-sm" style="object-fit: cover;" /></td>
+                        
                         <td style="text-align: left;">
-                            
-                            <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="<?php echo $url['base_url'];?>controller/crud.php?aksi=hapus&hapusid=<?php echo $isi['id_pengaduan'];?>" 
-                            class="btn btn-danger btn-md"><span class="bi bi-trash"></span></a>
-                            <a href="addtanggapan.php?id=<?php echo $isi['id_pengaduan'];?>" class="btn btn-warning btn-md">
-                            <span class="bi bi-pencil-square"></span></a>
+                            <!-- PERBAIKAN LINK KE addtanggapan.php -->
+                            <a href="addtanggapan.php?id=<?php echo $isi['id_pengaduan'];?>" class="btn btn-success btn-sm">
+                                <span class="bi bi-reply-fill"></span> Tanggapi
+                            </a>
                         </td>
                     </tr>
                     <?php
@@ -67,7 +85,6 @@
                     ?>
                 </tbody>
               </table>
-              <!-- End Default Table Example -->
                 
                 </div>
             </div>
@@ -76,5 +93,5 @@
         </div>
         </section>
 
-    </main><!-- End #main -->
+    </main>
     <?php include('../template/footer.php') ?>

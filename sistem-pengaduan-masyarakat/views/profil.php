@@ -33,9 +33,11 @@
                             <h2 class="fw-bold text-center"><?php echo $user['nama'];?></h2>
                             <h3 class="text-muted text-center mt-1">
                                 <?php 
-                                    if($user['level'] == 1) echo "Admin";
-                                    else if($user['level'] == 2) echo "Petugas";
-                                    else echo "Masyarakat";
+                                    if($user['level'] == 1) { 
+                                        echo "Admin"; 
+                                    } else { 
+                                        echo "Masyarakat"; 
+                                    }
                                 ?>
                             </h3>
                         </div>

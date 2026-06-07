@@ -31,7 +31,8 @@
                 <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Tanggal</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="tgl_pengaduan" required oninvalid="this.setCustomValidity('Tanggal pengaduan harus diisi')" oninput="this.setCustomValidity('')">
+                    <!-- Nilai otomatis diisi tanggal hari ini dan dikunci menggunakan readonly -->
+                    <input type="date" class="form-control" name="tgl_pengaduan" value="<?php echo date('Y-m-d'); ?>" readonly>
                   </div>
                 </div>
                 

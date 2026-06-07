@@ -24,7 +24,6 @@ $user = $_SESSION['login'];
           <span>
             <?php 
               if($user['level'] == 1) echo "Admin";
-              else if($user['level'] == 2) echo "Petugas";
               else echo "Masyarakat";
             ?>
           </span>

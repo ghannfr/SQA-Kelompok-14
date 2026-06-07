@@ -22,16 +22,16 @@ if (!empty($_GET['aksi'] == "daftar")) {
     $otp = rand(100000, 999999);
 
     $data = array(
-        'nik'        => $_POST['nik'],
-        'username'    => $_POST['username'],
-        'password'    => $_POST['password'],
-        'nama'        => $_POST['nama'],
-        'no_tlp'    => $_POST['no_tlp'],
-        'alamat'    => $_POST['alamat'], // Menangkap data alamat
-        'level'        => $_POST['level'],
-        'email'     => $email,
-        'otp'       => $otp
-    );
+            'nik'		=> $_POST['nik'],
+            'username'	=> $_POST['username'],
+            'password'	=> $_POST['password'], 
+            'nama'		=> $_POST['nama'],
+            'no_tlp'	=> $_POST['no_tlp'],
+            'alamat'    => $_POST['alamat'],
+            'level'		=> '2', // PAKSA MENJADI 2 (Masyarakat)
+            'email'     => $email,
+            'otp'       => $otp
+        );
     $proses->daftar($tabel, $data);
 
     // Proses Kirim Email

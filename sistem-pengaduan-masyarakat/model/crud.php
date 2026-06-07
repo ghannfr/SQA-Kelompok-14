@@ -131,23 +131,31 @@
             return $result->execute();
         }
 
-        // 1. Laporan Harian (Dengan Filter Tanggal)
+        // 1. Laporan Harian
+        // 1. Laporan Harian (Diperbarui)
         function tampil_data_harian($tabel, $user, $tanggal = null)
         {
-            if($tanggal != null) {
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan = '$tanggal' ORDER BY tgl_pengaduan DESC");
-            } else {
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan = DATE(NOW()) ORDER BY tgl_pengaduan DESC");
+            // Jika tidak ada tanggal yang dikirim, paksa gunakan tanggal hari ini
+            if ($tanggal == null || $tanggal == '') {
+                $tanggal = date('Y-m-d');
             }
+            
+            // Menggunakan DATE(p.tgl_pengaduan) untuk berjaga-jaga jika tipe datanya DATETIME
+            $sql = "SELECT p.*, u.nama, u.nik 
+                    FROM $tabel p 
+                    LEFT JOIN t_user u ON p.id_user = u.id_user 
+                    WHERE DATE(p.tgl_pengaduan) = '$tanggal' 
+                    ORDER BY p.tgl_pengaduan DESC";
+                    
+            $row = $this->db->prepare($sql);
             $row->execute();
             return $row->fetchAll();
         }
 
-        // 2. Laporan Mingguan (Dengan Filter Minggu ke-, Bulan, Tahun)
+        // 2. Laporan Mingguan
         function tampil_data_mingguan($tabel, $user, $minggu = null, $bulan = null, $tahun = null)
         {
             if($minggu != null && $bulan != null && $tahun != null) {
-                // Logika rentang tanggal berdasarkan minggu ke-X
                 $start_day = ($minggu - 1) * 7 + 1;
                 $end_day = $minggu * 7;
                 $batas_hari_bulan = date('t', strtotime("$tahun-$bulan-01")); 
@@ -157,47 +165,55 @@
                 $start = "$tahun-$bulan-" . sprintf("%02d", $start_day);
                 $end = "$tahun-$bulan-" . sprintf("%02d", $end_day);
 
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE p.tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY p.tgl_pengaduan DESC");
             } else {
                 $nows=strtotime(date('Y-m-d'));
                 $start=date('Y-m-d',strtotime('-7 day', $nows));
                 $end = date('Y-m-d');
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE p.tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY p.tgl_pengaduan DESC");
             }
             $row->execute();
             return $row->fetchAll();
         }
 
-        // 3. Laporan Bulanan (Dengan Filter Bulan dan Tahun)
+        // 3. Laporan Bulanan
         function tampil_data_bulanan($tabel, $user, $bulan = null, $tahun = null)
         {
             if($bulan != null && $tahun != null) {
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE MONTH(tgl_pengaduan) = '$bulan' AND YEAR(tgl_pengaduan) = '$tahun' ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE MONTH(p.tgl_pengaduan) = '$bulan' AND YEAR(p.tgl_pengaduan) = '$tahun' ORDER BY p.tgl_pengaduan DESC");
             } else {
                 $start=date('Y-m-01');
                 $end = date('Y-m-t');
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE p.tgl_pengaduan BETWEEN '$start' AND '$end' ORDER BY p.tgl_pengaduan DESC");
             }
             $row->execute();
             return $row->fetchAll();
         }
 
-        // 4. Laporan Tahunan (FUNGSI BARU)
+        // 4. Laporan Tahunan
         function tampil_data_tahunan($tabel, $user, $tahun = null)
         {
             if($tahun != null) {
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE YEAR(tgl_pengaduan) = '$tahun' ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE YEAR(p.tgl_pengaduan) = '$tahun' ORDER BY p.tgl_pengaduan DESC");
             } else {
-                $row = $this->db->prepare("SELECT * FROM $tabel WHERE YEAR(tgl_pengaduan) = YEAR(NOW()) ORDER BY tgl_pengaduan DESC");
+                $row = $this->db->prepare("SELECT p.*, u.nama, u.nik FROM $tabel p LEFT JOIN t_user u ON p.id_user = u.id_user WHERE YEAR(p.tgl_pengaduan) = YEAR(NOW()) ORDER BY p.tgl_pengaduan DESC");
             }
             $row->execute();
             return $row->fetchAll();
         }
 
         //tampil data seluruhnya
+        // Tampil data pengaduan masuk (Untuk halaman validasi)
         function tampil_data_pengaduan($tabel, $user)
         {
-            $row = $this->db->prepare("SELECT * FROM $tabel WHERE status = 0");
+            // Menggabungkan tabel pengaduan dengan tabel user untuk mengambil Nama dan NIK
+            $sql = "SELECT p.*, u.nama, u.nik 
+                    FROM $tabel p 
+                    LEFT JOIN t_user u ON p.id_user = u.id_user 
+                    WHERE p.status = 0 
+                    ORDER BY p.tgl_pengaduan DESC";
+            
+            $row = $this->db->prepare($sql);
             $row->execute();
             return $hasil = $row->fetchAll();
         }
@@ -269,6 +285,19 @@
             $row->execute();
             $hasil = $row->fetch();
             return $hasil['total'];
+        }
+        // FUNGSI BARU: Menampilkan pengaduan dan tanggapan yang sinkron (LEFT JOIN)
+        public function tampil_pengaduan_tanggapan_user($id_user)
+        {
+            $sql = "SELECT p.*, t.id_tanggapan, t.tgl_tanggapan 
+                    FROM t_pengaduan p 
+                    LEFT JOIN t_tanggapan t ON p.id_pengaduan = t.id_pengaduan 
+                    WHERE p.id_user = ? 
+                    ORDER BY p.tgl_pengaduan DESC";
+            
+            $row = $this->db->prepare($sql);
+            $row->execute(array($id_user));
+            return $row->fetchAll();
         }
     }
 ?>

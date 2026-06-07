@@ -16,42 +16,26 @@
       <i class="bi bi-menu-button-wide"></i><span>Pengaduan</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <?php
-            //$user = $_SESSION['login'];
-            //print_r ($user);
-            if($user['level'] == '1'){
-                
-        ?>
-      <li>
-        <a href="<?php echo $url['base_url'];?>views/validasi.php">
-          <i class="bi bi-circle"></i><span>Verifikasi dan Validasi</span>
-        </a>
-      </li>
-
-      <?php 
-            }else if($user['level'] == 2){
-        ?>
-        <li>
-            <a href="<?php echo $url['base_url'];?>views/validasi.php">
-            <i class="bi bi-circle"></i><span>Verifikasi dan Validasi</span>
-            </a>
-        </li>
-    <?php
-            }else{
-    ?>
-        <li>
-        <a href="<?php echo $url['base_url'];?>views/addpengaduan.php">
-          <i class="bi bi-circle"></i><span>Input Pengaduan</span>
-        </a>
-      </li>
-      <li>
-        <a href="<?php echo $url['base_url'];?>views/statuspengaduan.php">
-          <i class="bi bi-circle"></i><span>Status Pengaduan</span>
-        </a>
-      </li>
-    <?php
-            }
-      ?>
+        <?php if($user['level'] == '1') { ?>
+            <!-- MENU KHUSUS ADMIN (LEVEL 1) -->
+            <li>
+                <a href="<?php echo $url['base_url'];?>views/validasi.php">
+                <i class="bi bi-circle"></i><span>Verifikasi dan Validasi</span>
+                </a>
+            </li>
+        <?php } else { ?>
+            <!-- MENU KHUSUS MASYARAKAT (LEVEL 2) -->
+            <li>
+                <a href="<?php echo $url['base_url'];?>views/addpengaduan.php">
+                <i class="bi bi-circle"></i><span>Input Pengaduan</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $url['base_url'];?>views/statuspengaduan.php">
+                <i class="bi bi-circle"></i><span>Status Pengaduan</span>
+                </a>
+            </li>
+        <?php } ?>
     </ul>
     
     <?php 

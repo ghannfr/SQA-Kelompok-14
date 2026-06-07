@@ -30,20 +30,20 @@ include('../template/head.php');
 
                   <form class="row g-3 needs-validation" novalidate action="<?php echo $url['base_url']; ?>controller/crud.php?aksi=daftar" method="POST">
 
+                    <!-- INPUT TERSEMBUNYI UNTUK LEVEL (Otomatis Masyarakat / Level 2) -->
+                    <input type="hidden" name="level" value="2">
+
                     <div class="col-12">
                       <label for="yourNIK" class="form-label">NIK</label>
                       <input type="tel" name="nik" class="form-control" id="yourNIK" required minlength="16" maxlength="16" pattern="^[0-9]{16}$"
                         oninput="
-                               // Blokir huruf, spasi, dan simbol secara instan
                                this.value = this.value.replace(/[^0-9]/g, '');
-
                                let pesan = '';
                                if (this.value === '') {
                                  pesan = 'NIK tidak boleh kosong!';
                                } else if (this.value.length < 16) {
                                  pesan = 'NIK kurang lengkap! NIK harus pas 16 angka.';
                                }
-                               
                                this.setCustomValidity(pesan);
                                if (pesan) this.nextElementSibling.innerText = pesan;
                              "
@@ -85,13 +85,10 @@ include('../template/head.php');
                     </div>
 
                     <div class="col-12">
-                      <div class="col-12">
                         <label for="yourTlp" class="form-label">Nomor Telepon</label>
                         <input type="tel" name="no_tlp" class="form-control" id="yourTlp" required maxlength="13" pattern="^08[0-9]{8,11}$"
                           oninput="
-                               // Ini kodenya untuk memblokir ketikan selain angka secara instan
                                this.value = this.value.replace(/[^0-9]/g, '');
-
                                let pesan = '';
                                if (this.value === '') pesan = 'Nomor telepon tidak boleh kosong!';
                                else if (!/^08/.test(this.value)) pesan = 'Nomor telepon harus diawali dengan angka 08!';
@@ -107,30 +104,21 @@ include('../template/head.php');
                                }
                              ">
                         <div class="invalid-feedback">Nomor telepon tidak boleh kosong!</div>
-                      </div>
+                    </div>
 
-                      <div class="col-12">
-                        <label for="yourAddress" class="form-label">Alamat Lengkap</label>
-                        <textarea name="alamat" class="form-control" style="height: 80px;" required></textarea>
-                        <div class="invalid-feedback">Silahkan masukan alamat lengkap!</div>
-                      </div>
+                    <div class="col-12">
+                      <label for="yourAddress" class="form-label">Alamat Lengkap</label>
+                      <textarea name="alamat" class="form-control" style="height: 80px;" required></textarea>
+                      <div class="invalid-feedback">Silahkan masukan alamat lengkap!</div>
+                    </div>
 
-                      <div class="col-12">
-                        <label for="yourLevel" class="form-label">Level</label>
-                        <select class="form-select" name="level" aria-label="Default select example">
-                          <option selected>-Pilih Level-</option>
-                          <option value="1">Admin</option>
-                          <option value="2">Petugas</option>
-                          <option value="3">Masyarakat</option>
-                        </select>
-                      </div>
+                    <div class="col-12 mt-4">
+                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                    </div>
+                    <div class="col-12">
+                      <p class="small mb-0">Sudah punya akun? <a href="<?php echo $url['base_url']; ?>">Log in</a></p>
+                    </div>
 
-                      <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                      </div>
-                      <div class="col-12">
-                        <p class="small mb-0">Sudah punya akun? <a href="<?php echo $url['base_url']; ?>">Log in</a></p>
-                      </div>
                   </form>
 
                 </div>
@@ -143,4 +131,6 @@ include('../template/head.php');
       </section>
 
     </div>
-  </main><?php include('../template/footer.php')  ?>
+  </main>
+  
+<?php include('../template/footer.php')  ?>
