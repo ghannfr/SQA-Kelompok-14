@@ -198,7 +198,7 @@ if (!empty($_GET['aksi'] == "tanggapan")) {
     echo '<script>alert("Tanggapan Berhasil Dikirim!");window.location="../views/validasi.php"</script>';
 }
 
-// fungsi hapus akun
+// fungsi hapus akun ini teh
 if (!empty($_GET['aksi'] == "hapus_akun")) {
     $tabel = 't_user';
     $where = 'id_user';
