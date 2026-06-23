@@ -104,38 +104,43 @@ if (!empty($_GET['aksi'] == 'logout')) {
     header('Location: ' . $url['base_url']);
 }
 
-//tambah pengaduan (UPDATE HANYA PENAMBAHAN KATEGORI)
+//tambah pengaduan (REVISI FIX KEAMANAN SQL INJECTION & UNDEFINED TANGGAL)
 if (!empty($_GET['aksi'] == "tambah")) {
     $tabel = 't_pengaduan';
+    
+    // Backup: Jika tgl_pengaduan entah bagaimana tetap kosong, otomatis generate tanggal server
+    $tgl_masuk = isset($_POST['tgl_pengaduan']) ? $_POST['tgl_pengaduan'] : date('Y-m-d');
+    
+    // ANTI INJEKSI: Membersihkan isi laporan dari script dan tanda kutip (SQLi & XSS Protection)
+    $laporan_aman = htmlspecialchars($_POST['isi_laporan'], ENT_QUOTES, 'UTF-8');
+
     $data = array(
         'id_user'        => $_POST['id_user'],
-        'kategori'       => $_POST['kategori'], // Tambahan Kategori
-        'tgl_pengaduan'  => $_POST['tgl_pengaduan'],
-        'isi_laporan'    => $_POST['isi_laporan']
+        'kategori'       => $_POST['kategori'], 
+        'tgl_pengaduan'  => $tgl_masuk,
+        'isi_laporan'    => $laporan_aman
     );
     $proses->tambah_data($tabel, $data);
     echo '<script>alert("Tambah Data Berhasil");window.location="../views/dashboard.php"</script>';
-} // PENUTUP KURUNG KURAWAL "tambah" SEKARANG ADA DI SINI
+} 
 
-// AKSI EDIT PROFIL (SEKARANG BERDIRI SENDIRI DI LUAR "tambah")
+// AKSI EDIT PROFIL 
 if (!empty($_GET['aksi'] == 'editprofil')) {
     $id_user = $_POST['id_user'];
     $data = array(
-        'username' => $_POST['username'], // <-- TAMBAHAN (Menangkap Username baru)
+        'username' => $_POST['username'],
         'email'  => $_POST['email'],
         'no_tlp' => $_POST['no_tlp'],
         'alamat' => $_POST['alamat']
-        // NIK dan Nama dihapus karena tidak bisa diedit
     );
 
     // Simpan ke database
     $proses->edit_profil($data, $id_user);
 
-    // --- TAMBAHAN: UPDATE SESSION SECARA REAL-TIME ---
+    // UPDATE SESSION SECARA REAL-TIME 
     session_start();
     $profil_terbaru = $proses->tampil_data_id('t_user', 'id_user', $id_user);
     $_SESSION['login'] = $profil_terbaru;
-    // --------------------------------------------------
 
     echo '<script>alert("Profil Anda berhasil diperbarui!");window.location="../views/profil.php";</script>';
 }
@@ -149,12 +154,15 @@ if (!empty($_GET['aksi'] == "hapus")) {
     echo '<script>alert("Hapus Data Berhasil");window.location="../views/dashboard.php"</script>';
 }
 
-// proses edit pengaduan (UPDATE HANYA PENAMBAHAN KATEGORI)
+// proses edit pengaduan (REVISI FIX KEAMANAN)
 if (!empty($_GET['aksi'] == 'edit')) {
+    // ANTI INJEKSI untuk form Edit Pengaduan
+    $laporan_aman = htmlspecialchars($_POST['isi_laporan'], ENT_QUOTES, 'UTF-8');
+    
     $data = array(
         'tgl_pengaduan'  => $_POST['tgl_pengaduan'],
-        'kategori'       => $_POST['kategori'], // Tambahan Kategori
-        'isi_laporan'    => $_POST['isi_laporan']
+        'kategori'       => $_POST['kategori'],
+        'isi_laporan'    => $laporan_aman
     );
     $tabel = 't_pengaduan';
     $where = 'id_pengaduan';
@@ -163,7 +171,7 @@ if (!empty($_GET['aksi'] == 'edit')) {
     echo '<script>alert("Edit Data Berhasil");window.location="../views/dashboard.php"</script>';
 }
 
-//tambah tanggapan (UPDATE BISA TERIMA ATAU TOLAK)
+//tambah tanggapan (REVISI FIX KEAMANAN)
 if (!empty($_GET['aksi'] == "tanggapan")) {
     $tabel = 't_tanggapan';
     $tabelubah = 't_pengaduan';
@@ -171,8 +179,11 @@ if (!empty($_GET['aksi'] == "tanggapan")) {
     // Ambil status dari input radio (1 = Terima, 2 = Tolak)
     $status_tanggapan = $_POST['status_tanggapan'];
 
+    // ANTI INJEKSI untuk form Tanggapan Admin
+    $tanggapan_aman = htmlspecialchars($_POST['tanggapan'], ENT_QUOTES, 'UTF-8');
+
     $data = array(
-        'tanggapan'      => $_POST['tanggapan'],
+        'tanggapan'      => $tanggapan_aman,
         'id_pengaduan'   => $_POST['id_pengaduan'],
         'id_user'        => $_POST['id_user']
     );
@@ -187,7 +198,7 @@ if (!empty($_GET['aksi'] == "tanggapan")) {
     echo '<script>alert("Tanggapan Berhasil Dikirim!");window.location="../views/validasi.php"</script>';
 }
 
-// hapus akun
+// fungsi hapus akun
 if (!empty($_GET['aksi'] == "hapus_akun")) {
     $tabel = 't_user';
     $where = 'id_user';

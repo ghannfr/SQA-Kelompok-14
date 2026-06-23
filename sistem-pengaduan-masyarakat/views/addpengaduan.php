@@ -35,6 +35,7 @@ include('../template/head.php');
                   <div class="col-sm-10">
                     <?php date_default_timezone_set('Asia/Jakarta'); ?>
                     <input type="text" class="form-control" value="<?php echo date('d M Y, H:i'); ?> WIB" disabled>
+                    <input type="hidden" name="tgl_pengaduan" value="<?php echo date('Y-m-d'); ?>">
                   </div>
                 </div>
 
@@ -80,4 +81,5 @@ include('../template/head.php');
       </div>
     </section>
 
-  </main><?php include('../template/footer.php') ?>
+  </main>
+  <?php include('../template/footer.php') ?>
