@@ -8,7 +8,7 @@ include('../template/head.php');
     <?php include('../template/sidebar.php'); ?>
     <?php require '../controller/Pintasan.php';
 
-    // tampilkan form edit
+    // menampilkan form edit
     $idGet = strip_tags($_GET['id']);
     $hasil = $proses->tampil_data_id('t_pengaduan', 'id_pengaduan', $idGet);
     ?>
